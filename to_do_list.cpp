@@ -6,67 +6,74 @@
 
 using namespace std;
 
-void addTask(std::vector<std::string>& tasks, string task);
-void deleteTask(std::vector<std::string>& tasks, string task);
-void viewTasks(const std::vector<std::string>& tasks);
-void saveTasksToFile(const std::vector<std::string>& tasks, const std::string& filename);
-void loadTasksFromFile(std::vector<std::string>& tasks, const std::string& filename);
+void addTask(vector<string>& tasks, string task);
+void deleteTask(vector<string>& tasks, string task);
+void viewTasks(const vector<string>& tasks);
+void saveTasksToFile(const vector<string>& tasks, const string& filename);
+void loadTasksFromFile(vector<string>& tasks, const string& filename);
 
-int main(){
-
+int main() {
     vector<string> tasks;
-    int i = 1;
-    cout << "hello world";
-    while (i) {
+    cout << "Welcome to the To-Do List App!\n";
+    while (true) {  // Use a loop that runs indefinitely until the user chooses to exit
         int input;
         string task;
         string filename;
-        cout << "you have " << tasks.size() << "remaining\n";
-        // take in the value form the user
-        cout << "choose your option: \n 1. add task\n 2.delete a1 task\n 3.view task\n 4.save the task to file\n 5.load task from file\n 6.exit\n";
+        cout << "You have " << tasks.size() << " tasks remaining.\n";
+        // Take input from the user
+        cout << "Choose your option:\n"
+             << "1. Add task\n"
+             << "2. Delete a task\n"
+             << "3. View tasks\n"
+             << "4. Save tasks to file\n"
+             << "5. Load tasks from file\n"
+             << "6. Exit\n";
         cin >> input;
-        switch (input)
-        {
-        case 1:
-            cout << "enter the task you would like to add to the list:\n";
-            cin >> task;
-            addTask(tasks, task);
-            continue;
-        case 2:
-            cout << "enter the task you would like to delete form the list:\n";
-            cin >> task;
-            deleteTask(tasks, task);
-            continue;
-        case 3:
-            viewTasks(tasks);
-            continue;
-        case 4:
-            cout << "enter the filename you would like to store the tasks:\n";
-            cin >> filename;
-            saveTasksToFile(tasks, filename);
-            continue;
-        case 5:
-            cout << "enter the filenmae you would like the file to load from:\n";
-            cin >> filename;
-            tasks.clear();
-            loadTasksFromFile(tasks, filename);
-            continue;
-        case 6:
-            break;
-        default:
-            cout << "please enter the correct option.\n";
-            continue;
+
+        switch (input) {
+            case 1:
+                cout << "Enter the task you would like to add to the list:\n";
+                cin.ignore();  // Clear the input buffer
+                getline(cin, task);  // Use getline to allow spaces in the task
+                addTask(tasks, task);
+                break;
+            case 2:
+                cout << "Enter the task you would like to delete from the list:\n";
+                cin.ignore();  // Clear the input buffer
+                getline(cin, task);  // Use getline to allow spaces in the task
+                deleteTask(tasks, task);
+                break;
+            case 3:
+                viewTasks(tasks);
+                break;
+            case 4:
+                cout << "Enter the filename you would like to store the tasks:\n";
+                cin >> filename;
+                saveTasksToFile(tasks, filename);
+                break;
+            case 5:
+                cout << "Enter the filename you would like to load tasks from:\n";
+                cin >> filename;
+                tasks.clear();
+                loadTasksFromFile(tasks, filename);
+                break;
+            case 6:
+                cout << "Exiting the program. Goodbye!\n";
+                return 0;  // Exit the program
+            default:
+                cout << "Please enter a valid option.\n";
+                break;
         }
     }
     return 0;
 }
 
-void addTask(std::vector<std::string>& tasks, string task){
+void addTask(vector<string>& tasks, string task){
     tasks.push_back(task);
 
 }
 
-void deleteTask(std::vector<std::string>& tasks, string task){
+void deleteTask(vector<string>& tasks, string task){
     int i = 0;
     int j = 0;
     for (auto t: tasks){
@@ -83,14 +90,14 @@ void deleteTask(std::vector<std::string>& tasks, string task){
 
 }
 
-void viewTasks(const std::vector<std::string>& tasks){
+void viewTasks(const vector<string>& tasks){
     for(string task: tasks){
         cout << task << endl;
     }
 
 }
 
-void saveTasksToFile(const std::vector<std::string>& tasks, const std::string& filename){
+void saveTasksToFile(const vector<string>& tasks, const string& filename){
     ofstream outputfile(filename);
     if (outputfile.is_open()){
         for (auto task: tasks){
@@ -103,7 +110,7 @@ void saveTasksToFile(const std::vector<std::string>& tasks, const std::string& f
     }
 
 }
-void loadTasksFromFile(std::vector<std::string>& tasks, const std::string& filename){
+void loadTasksFromFile(vector<string>& tasks, const string& filename){
     ifstream inputfile;
     string task;
     inputfile.open(filename);
